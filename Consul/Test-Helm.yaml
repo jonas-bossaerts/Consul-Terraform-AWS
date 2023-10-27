@@ -1,0 +1,51 @@
+global:
+  name: consul
+  datacenter: dc1
+  metrics:
+    enabled: true
+   # enableAgentMetrics: true
+    agentMetricsRetentionTime: "1m"
+
+  # TLS configures whether Consul components use TLS.
+  tls:
+    # TLS must be enabled for federation in Kubernetes.
+    enabled: true
+
+  federation:
+    enabled: true
+    # This will cause a Kubernetes secret to be created that
+    # can be imported by secondary datacenters to configure them
+    # for federation.
+    createFederationSecret: true
+
+  acls:
+    manageSystemACLs: false
+    # If ACLs are enabled, we must create a token for secondary
+    # datacenters to replicate ACLs.
+    createReplicationToken: false
+
+  # Gossip encryption secures the protocol Consul uses to quickly
+  # discover new nodes and detect failure.
+  # gossipEncryption:
+   # secretName: consul-gossip-encryption-key
+   # secretKey: key
+
+connectInject:
+  # Consul Connect service mesh must be enabled for federation.
+  enabled: true
+
+ui:
+  enabled: true
+  metrics:
+    enabled: true
+    provider: "prometheus"
+    baseURL: http://prometheus-server.default.svc.cluster.local
+
+meshGateway:
+  # Mesh gateways are gateways between datacenters. They must be enabled
+  # for federation in Kubernetes since the communication between datacenters
+  # goes through the mesh gateways.
+  enabled: true
+
+controller:
+  enabled: true

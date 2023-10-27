@@ -1,0 +1,157 @@
+# Deny al de rest
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: deny-all
+spec:
+  destination:
+    name: '*'
+  sources:
+    - name: '*'
+      action: deny
+
+# Alle front-end regels
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: front-end-to-user
+spec:
+  destination:
+    name: user
+  sources:
+    - name: front-end
+      action: allow
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: front-end-to-catalogue
+spec:
+  destination:
+    name: catalogue
+  sources:
+    - name: front-end
+      action: allow
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: front-end-to-carts
+spec:
+  destination:
+    name: carts
+  sources:
+    - name: front-end
+      action: allow
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: front-end-to-payment
+spec:
+  destination:
+    name: payment
+  sources:
+    - name: front-end
+      action: allow
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: front-end-to-orders
+spec:
+  destination:
+    name: orders
+  sources:
+    - name: front-end
+      action: allow
+
+# Orders regels
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: orders-to-orders-db
+spec:
+  destination:
+    name: orders-db
+  sources:
+    - name: orders
+      action: allow
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: orders-to-shipping
+spec:
+  destination:
+    name: shipping
+  sources:
+    - name: orders
+      action: allow
+
+# Shipping -> Rabbitmq
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: shipping-to-rabbitmq
+spec:
+  destination:
+    name: rabbitmq
+  sources:
+    - name: shipping
+      action: allow
+
+# Rabbitmq -> Queue-Master
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: rabbitmq-to-queue-master
+spec:
+  destination:
+    name: queue-master
+  sources:
+    - name: rabbitmq
+      action: allow
+
+# Users -> Users-db
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: users-to-users-db
+spec:
+  destination:
+    name: users-db
+  sources:
+    - name: users
+      action: allow
+
+# Catalogue -> Catalogue-db
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: catalogue-to-catalogue-db
+spec:
+  destination:
+    name: catalogue-db
+  sources:
+    - name: catalogue
+      action: allow
+
+# Carts -> Carts-db
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: carts-to-carts-db
+spec:
+  destination:
+    name: carts-db
+  sources:
+    - name: carts
+      action: allow

@@ -1,0 +1,7 @@
+global:
+  name: consul
+  datacenter: hashidc1
+ui:
+  enabled: true
+  service:
+    type: LoadBalancer

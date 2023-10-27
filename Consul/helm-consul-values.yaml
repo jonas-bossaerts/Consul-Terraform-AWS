@@ -1,0 +1,20 @@
+global:
+  name: consul
+  datacenter: hashidc1
+server:
+  enabled: true
+  replicas: 3
+ui:
+  enabled: true
+  service:
+    type: 'LoadBalancer'
+connectInject:
+  enabled: true
+controller:
+  enabled: true
+ingressGateways:
+  enabled: true
+  gateways:
+    - name: ingress-gateway
+      service:
+        type: LoadBalancer
